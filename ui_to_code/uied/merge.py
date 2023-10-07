@@ -6,9 +6,9 @@ import os
 import time
 from random import randint as rint
 
-from utils.util_merge import *
-from config.CONFIG import Config
-from utils.Element import Element
+from uied.utils.util_merge import *
+from uied.config.CONFIG import Config
+from uied.utils.Element import Element
 C = Config()
 
 def reclassify_text_by_ocr(org, compos, texts):

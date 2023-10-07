@@ -7,10 +7,10 @@ import time
 from random import randint as rint
 import shutil
 
-import detect_compo.lib_ip.ip_preprocessing as pre
-import detect_compo.lib_ip.file_utils as file
-import detect_compo.lib_ip.ip_detection as det
-from config.CONFIG import Config
+import uied.detect_compo.lib_ip.ip_preprocessing as pre
+import uied.detect_compo.lib_ip.file_utils as file
+import uied.detect_compo.lib_ip.ip_detection as det
+from uied.config.CONFIG import Config
 C = Config()
 
 

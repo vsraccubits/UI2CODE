@@ -1,5 +1,5 @@
 import numpy as np
-from detect_compo.lib_ip.Bbox import Bbox
+from uied.detect_compo.lib_ip.Bbox import Bbox
 
 
 class Element:

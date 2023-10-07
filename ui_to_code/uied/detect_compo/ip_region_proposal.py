@@ -4,14 +4,14 @@ import time
 import json
 import numpy as np
 
-import detect_compo.lib_ip.ip_preprocessing as pre
-import detect_compo.lib_ip.ip_draw as draw
-import detect_compo.lib_ip.ip_detection as det
-import detect_compo.lib_ip.ip_segment as seg
-import detect_compo.lib_ip.file_utils as file
-import detect_compo.lib_ip.block_division as blk
-import detect_compo.lib_ip.Component as Compo
-from config.CONFIG_UIED import Config
+import uied.detect_compo.lib_ip.ip_preprocessing as pre
+import uied.detect_compo.lib_ip.ip_draw as draw
+import uied.detect_compo.lib_ip.ip_detection as det
+import uied.detect_compo.lib_ip.ip_segment as seg
+import uied.detect_compo.lib_ip.file_utils as file
+import uied.detect_compo.lib_ip.block_division as blk
+import uied.detect_compo.lib_ip.Component as Compo
+from uied.config.CONFIG_UIED import Config
 C = Config()
 
 
@@ -65,10 +65,10 @@ def nesting_inspection(org, grey, compos, ffl_block):
 
 
 def compo_detection(input_img_path, output_root, uied_params,
-                    resize_by_height=600,
+                    resize_by_height=None,
                     classifier=None, show=False, wai_key=0):
 
-    start = time.clock()
+    start = time.time()
     name = input_img_path.split('/')[-1][:-4]
     ip_root = file.build_directory(pjoin(output_root, "ip"))
 
@@ -119,6 +119,6 @@ def compo_detection(input_img_path, output_root, uied_params,
     file.save_corners_json(pjoin(output_root, 'compo.json'), uicompos)
     # seg.dissemble_clip_img_fill(pjoin(output_root, 'clips'), org, uicompos)
 
-    print("[Compo Detection Completed in %.3f s] %s" % (time.clock() - start, input_img_path))
+    print("[Compo Detection Completed in %.3f s] %s" % (time.time() - start, input_img_path))
     # if show:
     #     cv2.destroyAllWindows()

@@ -6,7 +6,7 @@ from uied import main_uied as uied
 from code_generation import main_2code as code
 
 if __name__ == '__main__':
-    input_img_path = 'data/input/x.png'
+    input_img_path = 'data/input/9.png'
     name = input_img_path.split('/')[-1][:-4]
 
     output_dir_uied = pjoin('data/output', name, 'uied')

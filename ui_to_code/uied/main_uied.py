@@ -37,6 +37,7 @@ def element_detection(input_path_img='data/input/9.png', output_root='data/outpu
     # set input image path
 
     resized_height = resize_height_by_longest_edge(input_path_img)
+    resized_height = None
 
     is_ip = True
     is_clf = False
@@ -45,11 +46,24 @@ def element_detection(input_path_img='data/input/9.png', output_root='data/outpu
 
     if is_ocr:
         import uied.detect_text.text_detection as text
+        import json
         os.makedirs(pjoin(output_root, 'ocr'), exist_ok=True)
         text.text_detection(input_path_img, output_root, show=True, method='google')
+        output_json_path = pjoin(output_root, 'ocr', os.path.basename(input_path_img)[:-4] + '.json')
+        ocr_json = json.load(open(output_json_path, 'r'))
+        output_json = {"compos": []}
+        for text_data in ocr_json["texts"]:
+            compos_data = {
+                "row_max": text_data["row_max"],
+                "column_min": text_data["column_min"],
+                "column_max": text_data["column_max"],
+                "row_min": text_data["row_min"]
+            }
+            output_json["compos"].append(compos_data)
+        json.dump(output_json, open(output_json_path, 'w'), indent=4)
 
     if is_ip:
-        import detect_compo.ip_region_proposal as ip
+        import uied.detect_compo.ip_region_proposal as ip
         os.makedirs(pjoin(output_root, 'ip'), exist_ok=True)
         # switch of the classification func
         classifier = None
@@ -60,12 +74,12 @@ def element_detection(input_path_img='data/input/9.png', output_root='data/outpu
             classifier['Elements'] = CNN('Elements')
             # classifier['Noise'] = CNN('Noise')
         ip.compo_detection(input_path_img, output_root, key_params,
-                           classifier=classifier, resize_by_height=resized_height, show=False)
+                           classifier=classifier, resize_by_height=None, show=False)
 
     if is_merge:
-        import merge
+        from uied import merge
         name = input_path_img.split('/')[-1][:-4]
         compo_path = pjoin(output_root, 'ip', str(name) + '.json')
         ocr_path = pjoin(output_root, 'ocr', str(name) + '.json')
         merge.incorporate(input_path_img, compo_path, ocr_path, output_root, params=key_params,
-                          resize_by_height=resized_height, show=True)
+                          resize_by_height=None, show=True)
